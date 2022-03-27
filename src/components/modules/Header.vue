@@ -1,5 +1,5 @@
 <template setup>
-  <div  class="bg-blue p-3">
+  <div  class="bg-blue py-3 px-6">
     <span class="cursor-pointer text-white text-3xl" @click="goTop">
       Vue3 Memo
     </span>

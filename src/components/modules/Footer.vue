@@ -1,5 +1,8 @@
 <template setup>
-  <div class="bg-blue text-white text-sm text-center p-3">
+  <div
+    class="bg-blue text-white
+      text-sm text-center p-3 w-full"
+  >
     &copy; 2022 Jin
   </div>
 </template>
