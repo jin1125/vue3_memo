@@ -66,8 +66,9 @@
       </div>
     </form>
 
-    <div class="grid grid-cols-2 justify-items-center mt-5">
+    <div class="grid grid-cols-2 justify-items-center mt-8">
       <button
+        @click="goTop"
         class="border border-blue shadow-lg hover:shadow-none
           text-blue text-xs font-bold py-1 px-3"
       >
@@ -85,6 +86,8 @@
 
 <script setup>
   import {defineProps} from "vue"
+  import { useRouter } from 'vue-router';
+
   defineProps({
     id: String,
     title: String,
@@ -92,4 +95,10 @@
     limit: String,
     status: String
   })
+
+  const router = useRouter();
+
+  const goTop = () => {
+    router.push('/');
+  }
 </script>
