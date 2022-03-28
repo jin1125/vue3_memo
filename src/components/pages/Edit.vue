@@ -3,7 +3,8 @@
     class="border border-blue p-10 my-20
       w-2/5 min-w-80 mx-auto shadow-lg"
   >
-    <form @submit.prevent="addMemo" class="space-y-5">
+  {{ memos }}
+    <!-- <form @submit.prevent="addMemo" class="space-y-5">
       <div class="text-center ">
         <input
           type="text"
@@ -11,8 +12,9 @@
             font-bold text-2xl py-1 px-2"
           placeholder="write me ..."
           maxlength="20"
-          name="title" id="title"
-          v-model.trim="title"
+          name="title"
+          id="title"
+          v-model.trim="editParams.title"
         >
       </div>
       <div class="grid grid-cols-3">
@@ -64,7 +66,7 @@
           Edit
         </button>
       </div>
-    </form>
+    </form> -->
 
     <div class="grid grid-cols-2 justify-items-center mt-8">
       <button
@@ -85,18 +87,32 @@
 </template>
 
 <script setup>
-  import {defineProps} from "vue"
+  import { computed, reactive } from "vue"
   import { useRouter } from 'vue-router';
 
-  defineProps({
+  const router = useRouter();
+
+  const props = defineProps({
     id: String,
-    title: String,
-    detail: String,
-    limit: String,
-    status: String
+    // title: String,
+    // detail: String,
+    // limit: String,
+    // status: String
+    index: String,
+    memos: Object
   })
 
-  const router = useRouter();
+  console.log(props.id);
+  console.log(props.index);
+  console.log(props.memos);
+
+  // const editParams = reactive({
+  //   id: props.id,
+  //   title: props.title,
+  //   detail: props.detail,
+  //   limit: props.limit,
+  //   status: props.status
+  // })
 
   const goTop = () => {
     router.push('/');

@@ -2,8 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import Top from '../components/pages/Top.vue';
 import Edit from '../components/pages/Edit.vue';
 
-// const route = useRoute();
-
 const routes = [
   { path: '/', name: 'Top', component: Top },
   { path: '/edit/:id',

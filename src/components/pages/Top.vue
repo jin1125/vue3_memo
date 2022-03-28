@@ -3,6 +3,7 @@
     class="border border-blue py-5 px-10 my-10
       w-2/5 min-w-80 mx-auto shadow-lg"
   >
+    {{ memos }}
     <h1 class="text-blue text-2xl font-bold text-center mt-5 mb-10">
       New Memo
     </h1>
@@ -31,7 +32,8 @@
             font-bold col-span-2 py-1 px-2"
           placeholder="write me ..."
           maxlength="100"
-          name="detail" id="detail"
+          name="detail"
+          id="detail"
           v-model.trim="detail"
         ></textarea>
       </div>
@@ -76,7 +78,6 @@
       <select
         class="border border-blue text-blue
           font-bold col-span-2 py-1 px-2"
-          v-model="test"
       >
         <option disabled value="">---</option>
         <option value="incomplete">Incomplete</option>
@@ -108,7 +109,7 @@
 </template>
 
 <script setup>
-  import { ref } from "vue";
+  import { ref, computed } from "vue";
   import router from "../../router";
 
   let memos = [];
@@ -137,13 +138,17 @@
   const goEdit = (index) => {
     router.push({
       name: 'Edit',
-      params: {
+      params:
+      {
+        index: index,
         id: memos[index].memoId,
-        title: memos[index].title,
-        detail: memos[index].detail,
-        limit: memos[index].limit,
-        status: memos[index].status
+        memos: memos,
+        // title: memos[index].title,
+        // detail: memos[index].detail,
+        // limit: memos[index].limit,
+        // status: memos[index].status
       }
     })
   }
+
 </script>
