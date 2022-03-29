@@ -3,7 +3,7 @@
     class="border border-blue py-5 px-10 my-10
       w-2/5 min-w-80 mx-auto shadow-lg"
   >
-    {{ memos }}
+  {{ memos }}
     <h1 class="text-blue text-2xl font-bold text-center mt-5 mb-10">
       New Memo
     </h1>
@@ -112,23 +112,31 @@
   import { ref, computed } from "vue";
   import router from "../../router";
 
-  let memos = [];
-  let memoId = ref(0);
   let title = ref('');
   let detail = ref('');
   let limit = ref('');
 
+  const props = defineProps({
+    memoId: Number,
+    memos: Array
+  })
+  const emit =  defineEmits(['custom-event'])
+
   const addMemo = () => {
     if(!title.value || !detail.value || !limit.value) return
 
+    const newMemoId = props.memoId + 1
+
     const newMemo = {
-      memoId: memoId.value++,
+      memoId: newMemoId,
       title: title.value,
       detail: detail.value,
       limit: limit.value,
       status: 'incomplete'
     }
-    memos.push(newMemo);
+    props.memos.push(newMemo);
+
+    emit('custom-event', 'test')
 
     title.value = ''
     detail.value = ''
@@ -136,19 +144,6 @@
   }
 
   const goEdit = (index) => {
-    router.push({
-      name: 'Edit',
-      params:
-      {
-        index: index,
-        id: memos[index].memoId,
-        memos: memos,
-        // title: memos[index].title,
-        // detail: memos[index].detail,
-        // limit: memos[index].limit,
-        // status: memos[index].status
-      }
-    })
+    router.push(`/edit/${index}`)
   }
-
 </script>
