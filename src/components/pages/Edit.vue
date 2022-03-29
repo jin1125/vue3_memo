@@ -3,8 +3,7 @@
     class="border border-blue p-10 my-20
       w-2/5 min-w-80 mx-auto shadow-lg"
   >
-  {{ memos }}
-    <!-- <form @submit.prevent="addMemo" class="space-y-5">
+    <form @submit.prevent="editMemo" class="space-y-5">
       <div class="text-center ">
         <input
           type="text"
@@ -14,7 +13,7 @@
           maxlength="20"
           name="title"
           id="title"
-          v-model.trim="editParams.title"
+          v-model.trim="title"
         >
       </div>
       <div class="grid grid-cols-3">
@@ -66,7 +65,7 @@
           Edit
         </button>
       </div>
-    </form> -->
+    </form>
 
     <div class="grid grid-cols-2 justify-items-center mt-8">
       <button
@@ -77,6 +76,7 @@
         ← Back
       </button>
       <button
+        @click="deleteMemo"
         class="border border-blue shadow-lg hover:shadow-none
           text-blue text-xs font-bold py-1 px-3"
       >
@@ -87,34 +87,44 @@
 </template>
 
 <script setup>
-  import { computed, reactive } from "vue"
-  import { useRouter } from 'vue-router';
+  import { ref } from "vue"
+  import { useRoute, useRouter } from 'vue-router';
 
   const router = useRouter();
+  const route = useRoute();
 
   const props = defineProps({
-    id: String,
-    // title: String,
-    // detail: String,
-    // limit: String,
-    // status: String
-    index: String,
-    memos: Object
+    memoId: Number,
+    memos: Array
   })
 
-  console.log(props.id);
-  console.log(props.index);
-  console.log(props.memos);
+  const currentId = route.params.id;
+  const memoValues = props.memos[currentId];
+  let title = ref(memoValues.title);
+  let status = ref(memoValues.status);
+  let detail = ref(memoValues.detail);
+  let limit = ref(memoValues.limit);
 
-  // const editParams = reactive({
-  //   id: props.id,
-  //   title: props.title,
-  //   detail: props.detail,
-  //   limit: props.limit,
-  //   status: props.status
-  // })
+  const editMemo = () => {
+    const editValues = {
+      memoId: props.memos[currentId].memoId,
+      title: title.value,
+      detail: detail.value,
+      limit: limit.value,
+      status: status.value,
+    }
+
+    props.memos.splice(currentId, 1, editValues)
+    alert('Chenged!')
+  }
 
   const goTop = () => {
+    router.push('/');
+  }
+
+  const deleteMemo = () => {
+    props.memos.splice(currentId, 1)
+    alert('Deleted!')
     router.push('/');
   }
 </script>

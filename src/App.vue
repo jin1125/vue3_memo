@@ -4,7 +4,7 @@
       <router-view
         :memoId=memoId
         :memos=memos
-        @custom-event="testMethod"
+        @emit-memo-id="addMemoId"
       />
     <Footer />
   </div>
@@ -18,7 +18,7 @@
   let memoId = ref(0);
   let memos = [];
 
-  const testMethod = (e) => {
-    console.log(e);
+  const addMemoId = () => {
+    memoId.value++
   }
 </script>

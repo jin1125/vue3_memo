@@ -3,7 +3,6 @@
     class="border border-blue py-5 px-10 my-10
       w-2/5 min-w-80 mx-auto shadow-lg"
   >
-  {{ memos }}
     <h1 class="text-blue text-2xl font-bold text-center mt-5 mb-10">
       New Memo
     </h1>
@@ -109,7 +108,7 @@
 </template>
 
 <script setup>
-  import { ref, computed } from "vue";
+  import { ref } from "vue";
   import router from "../../router";
 
   let title = ref('');
@@ -120,13 +119,14 @@
     memoId: Number,
     memos: Array
   })
-  const emit =  defineEmits(['custom-event'])
+  const emit =  defineEmits([
+    'emit-memo-id', 'emit-memos'
+  ])
 
   const addMemo = () => {
     if(!title.value || !detail.value || !limit.value) return
 
     const newMemoId = props.memoId + 1
-
     const newMemo = {
       memoId: newMemoId,
       title: title.value,
@@ -136,7 +136,7 @@
     }
     props.memos.push(newMemo);
 
-    emit('custom-event', 'test')
+    emit('emit-memo-id')
 
     title.value = ''
     detail.value = ''
