@@ -123,8 +123,12 @@
   }
 
   const deleteMemo = () => {
-    props.memos.splice(currentId, 1)
-    alert('Deleted!')
-    router.push('/');
+    if(confirm('Delete?')) {
+      props.memos.splice(currentId, 1)
+      alert('Deleted!')
+      router.push('/');
+    } else {
+      alert('Canceled delete')
+    }
   }
 </script>

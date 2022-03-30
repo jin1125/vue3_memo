@@ -65,11 +65,13 @@
         sort
       </p>
       <button
-        type="submit"
-        class="text-xl border border-blue px-3 shadow-lg hover:shadow-none">
+        @click="sortTrigger"
+        class="text-blue text-xl font-bold border
+          border-blue px-3 shadow-lg hover:shadow-none">
         ↓↑
       </button>
     </div>
+
     <div class="flex gap-5">
       <p class="text-blue text-xl font-bold">
         filter
@@ -108,12 +110,14 @@
 </template>
 
 <script setup>
-  import { ref } from "vue";
+  import { ref, computed } from "vue";
   import router from "../../router";
 
   let title = ref('');
   let detail = ref('');
   let limit = ref('');
+
+  let isSort = ref(false);
 
   const props = defineProps({
     memoId: Number,
@@ -122,6 +126,15 @@
   const emit =  defineEmits([
     'emit-memo-id', 'emit-memos'
   ])
+
+  const sortTrigger = () => {
+    isSort.value = !isSort.value
+    if(isSort.value) {
+      return props.memos.sort((a, b) => a.memoId - b.memoId)
+    } else {
+      return props.memos.sort((a, b) => b.memoId -  a.memoId)
+    }
+  }
 
   const addMemo = () => {
     if(!title.value || !detail.value || !limit.value) return

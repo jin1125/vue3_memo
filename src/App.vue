@@ -13,10 +13,10 @@
 <script setup>
   import Header from './components/modules/Header.vue';
   import Footer from './components/modules/Footer.vue';
-  import { ref } from "vue";
+  import { ref, reactive } from "vue";
 
   let memoId = ref(0);
-  let memos = [];
+  let memos = reactive([]);
 
   const addMemoId = () => {
     memoId.value++
