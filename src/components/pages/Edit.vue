@@ -92,14 +92,17 @@
 
   const router = useRouter();
   const route = useRoute();
-
   const props = defineProps({
     memoId: Number,
     memos: Array
   })
-
   const currentId = route.params.id;
   const memoValues = props.memos[currentId];
+
+  if(!memoValues) {
+    router.push('/');
+  }
+
   let title = ref(memoValues.title);
   let status = ref(memoValues.status);
   let detail = ref(memoValues.detail);

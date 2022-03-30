@@ -65,7 +65,7 @@
         sort
       </p>
       <button
-        @click="sortTrigger"
+        @click="sortMemos"
         class="text-blue text-xl font-bold border
           border-blue px-3 shadow-lg hover:shadow-none">
         ↓↑
@@ -79,8 +79,9 @@
       <select
         class="border border-blue text-blue
           font-bold col-span-2 py-1 px-2"
+        v-model="filterStatus"
       >
-        <option disabled value="">---</option>
+        <option value="all">All</option>
         <option value="incomplete">Incomplete</option>
         <option value="working">Working</option>
         <option value="complete">Complete</option>
@@ -89,10 +90,14 @@
   </div>
 
   <ul class="space-y-5 my-20">
-    <li v-for="(memo, index) in memos" :key="memo.memoId">
+    <li
+      v-for="(memo, index) in memos"
+      :key="memo.memoId"
+    >
       <div
         class="flex justify-between items-center mx-auto border
           border-blue shadow-lg py-2 px-3 w-2/5"
+        v-if="filterStatus === 'all' || memo.status === filterStatus"
       >
         <span class="text-blue font-bold text-lg">
           {{ memo.title }}
@@ -110,28 +115,35 @@
 </template>
 
 <script setup>
-  import { ref, computed } from "vue";
-  import router from "../../router";
+  import { ref } from "vue";
+  import { useRouter } from 'vue-router';
 
-  let title = ref('');
-  let detail = ref('');
-  let limit = ref('');
-
-  let isSort = ref(false);
-
+  const router = useRouter();
   const props = defineProps({
     memoId: Number,
     memos: Array
   })
+
+  let title = ref('');
+  let detail = ref('');
+  let limit = ref('');
+  let sortStatus = ref(false);
+  let filterStatus = ref('all');
+
+  if(route === 'undefined') {
+    router.go({path: '/', force: true})
+  }
+
   const emit =  defineEmits([
     'emit-memo-id', 'emit-memos'
   ])
 
-  const sortTrigger = () => {
-    isSort.value = !isSort.value
-    if(isSort.value) {
+  const sortMemos = () => {
+    sortStatus.value = !sortStatus.value
+
+    if(!sortStatus.value) {
       return props.memos.sort((a, b) => a.memoId - b.memoId)
-    } else {
+    } else if(sortStatus.value) {
       return props.memos.sort((a, b) => b.memoId -  a.memoId)
     }
   }
