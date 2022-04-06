@@ -130,10 +130,6 @@
   let sortStatus = ref(false);
   let filterStatus = ref('all');
 
-  if(route === 'undefined') {
-    router.go({path: '/', force: true})
-  }
-
   const emit =  defineEmits([
     'emit-memo-id', 'emit-memos'
   ])
